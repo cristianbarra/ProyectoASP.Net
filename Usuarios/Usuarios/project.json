@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "2.2.8",
+      "type": "platform"
+    }
+  }
+}
