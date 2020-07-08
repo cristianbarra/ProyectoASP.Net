@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Areas\Usuario\Data\" />
     <Folder Include="Areas\Usuario\Models\" />
+    <Folder Include="wwwroot\images\icons\" />
   </ItemGroup>
 
 </Project>
