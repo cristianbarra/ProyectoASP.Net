@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Usuarios.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net;
+using Usuarios.Data;
 
 namespace Usuarios
 {
@@ -43,6 +40,22 @@ namespace Usuarios
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                //Pagina de excepcion
+                //app.UseExceptionHandler(options => 
+                //{ 
+                //    options.Run(async context =>
+                //    {
+                //        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                //        context.Response.ContentType = "text/html";
+                //        var ex = context.Features.Get<IExceptionHandlerFeature>();
+                //        if(ex != null)
+                //        {
+                //            var error = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+                //            await context.Response.WriteAsync(error).ConfigureAwait(false);
+                //        }
+                //    }); 
+                //});
+                //app.UseExceptionHandler("/Home/Error");
             }
             else
             {
@@ -50,6 +63,19 @@ namespace Usuarios
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //Manejar Errores
+            //Mostrar codigo de error
+            //app.UseStatusCodePages("text/plain","Pagina de codigos de estado, codigo de estado {0}");
+            //app.UseStatusCodePages(async context =>
+            //{
+            //    await context.HttpContext.Response.WriteAsync(
+            //        "Pagina de codigos de estado, codigo de estado: " + context.HttpContext.Response.StatusCode);
+            //});
+            //Rediraccionar a una pagina para mostar el error
+            //app.UseStatusCodePagesWithRedirects("/Usuarios/MetodoRedireccion?code={0}");
+            //app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

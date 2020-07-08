@@ -26,5 +26,11 @@ namespace Usuarios.Controllers
             var data = $"Nombre {name} edad {age}";
             return View("Index",data);
         }
+
+        public IActionResult MetodoRedireccion(int code)
+        {
+            var data = $"Codigo {code}";
+            return View("Index", data);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace Usuarios.Models
     {
         public string RequestId { get; set; }
 
+        public string ErrorMensaje { get; set; }
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }
