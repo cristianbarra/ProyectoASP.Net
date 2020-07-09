@@ -23,11 +23,11 @@ namespace Usuarios.Areas.Usuario.Pages.Account
             {
 
             }
-            else
-            {
-                ModelState.AddModelError("Input.Email", "Se ha generado un error en el servidor");
-            }
-            var data = Input;
+            //else
+            //{
+            //    ModelState.AddModelError("Input.Email", "Se ha generado un error en el servidor");
+            //}
+            //var data = Input;
             return Page();
         }
         
