@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Usuarios.Models;
 
@@ -13,15 +15,18 @@ namespace Usuarios.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        //IServiceProvider _serviceProvider;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
+            //_serviceProvider = serviceProvider;
         }
 
         public IActionResult Index()
         {
             //throw new Exception("This is some exception!!!");
+            //await CreateRolesAsync(_serviceProvider);
             return View();
         }
 
@@ -56,6 +61,17 @@ namespace Usuarios.Controllers
             }
             return View(error);
             //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        private async Task CreateRolesAsync(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            String[] rolesName = { "Admin", "User" };
+            foreach(var item in rolesName)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(item);
+                if (!roleExist)
+                    await roleManager.CreateAsync(new IdentityRole(item));
+            }
         }
     }
 }
