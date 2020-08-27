@@ -4,26 +4,34 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Usuarios.Models;
+using Usuarios.Areas.Usuario.Models;
 
 namespace Usuarios.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
         //IServiceProvider _serviceProvider;
 
-        public HomeController(ILogger<HomeController> logger, IServiceProvider serviceProvider)
+        private static LoginModel _model;
+
+        public HomeController(IServiceProvider serviceProvider)
         {
-            _logger = logger;
+            //_logger = logger;
             //_serviceProvider = serviceProvider;
         }
 
         public IActionResult Index()
+        {
+            //throw new Exception("This is some exception!!!");
+            //await CreateRolesAsync(_serviceProvider);
+            return View();
+        }
+        public IActionResult Index(LoginModel model)
         {
             //throw new Exception("This is some exception!!!");
             //await CreateRolesAsync(_serviceProvider);

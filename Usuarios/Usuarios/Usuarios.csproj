@@ -25,7 +25,6 @@
     <Folder Include="Areas\Principal\Data\" />
     <Folder Include="Areas\Principal\Models\" />
     <Folder Include="Areas\Usuario\Data\" />
-    <Folder Include="Areas\Usuario\Models\" />
     <Folder Include="wwwroot\images\icons\" />
   </ItemGroup>
 
