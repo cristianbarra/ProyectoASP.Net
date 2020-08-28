@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Usuarios.Models;
 using Usuarios.Areas.Usuario.Models;
+using Usuarios.Librery;
+using Usuarios.Areas.Principal.Controllers;
 
 namespace Usuarios.Controllers
 {
@@ -17,25 +20,52 @@ namespace Usuarios.Controllers
         //private readonly ILogger<HomeController> _logger;
         //IServiceProvider _serviceProvider;
 
-        private static LoginModel _model;
+        private static LoginModel _model = null;
+        private SignInManager<IdentityUser> _signInManager;
+        private LUsuario _usuario;
 
-        public HomeController(IServiceProvider serviceProvider)
+        public HomeController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IServiceProvider serviceProvider)
         {
             //_logger = logger;
             //_serviceProvider = serviceProvider;
+            _usuario = new LUsuario(userManager,signInManager,roleManager);
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //throw new Exception("This is some exception!!!");
             //await CreateRolesAsync(_serviceProvider);
-            return View();
+            if (_signInManager.IsSignedIn(User))
+                return RedirectToAction(nameof(PrincipalController.Principal), "Principal");
+            if (_model == null)
+                return View();
+            else
+                return View(_model);
         }
-        public IActionResult Index(LoginModel model)
+        [HttpPost]
+        public async Task<IActionResult> IndexAsync(LoginModel model)
         {
             //throw new Exception("This is some exception!!!");
             //await CreateRolesAsync(_serviceProvider);
-            return View();
+          
+            if(ModelState.IsValid)
+            {
+                var result = await _usuario.UserLogingAsync(model);
+                if (result.Succeeded)
+                    return Redirect("/Principal/Principal");
+                else
+                {
+                    model.ErrorMassage = "Correo o contraseña invalidos.";
+                    _model = model;
+                    return Redirect("/");
+                }
+            }
+            return View(model);
         }
 
         public IActionResult Privacy()
